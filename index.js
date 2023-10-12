@@ -11,21 +11,24 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(layouts);
 
+// body-parser의 추가
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+
 app.use(methodOverride('_method'));
 app.use(express.static("public"));
 
 
-const homeRouter = require('./routes/home');
+const homeRouter = require('./routes/homeRoutes');
+const loginRouter = require('./routes/loginRoutes');
+const registerRouter = require('./routes/registerRoutes');
+
 
 app.use('/', homeRouter);
+app.use('/login', loginRouter);
+app.use('/register', registerRouter);
 
-app.get('/login', (req, res) => {
-    res.render('user/login');
-})
-
-app.get('/register', (req, res) => {
-    res.render('user/register');
-})
 
 app.listen(port, () => {
     console.log(`http://localhost:${port}`);
