@@ -8,7 +8,7 @@
 💡 ✔ 실행방법
 
 1. 노드설치
-2. 폴더를 열고 cmd 창에서 npm init을 실행해준다. → 필요한 npm 패키지 다운
+2. 폴더를 열고 cmd 창에서 npm install을 실행해준다. → 필요한 npm 패키지 다운
 3. npm start 로 프로그램 시작하면 http://localhost:3000 이 출력되는데 이 링크로 접속한다.
 
 </aside>
