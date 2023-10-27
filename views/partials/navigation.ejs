@@ -1,35 +1,36 @@
 <!-- navigation.ejs -->
 <!-- 사이트 상단 -->
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="#">
+
+<nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
+    <a class="navbar-brand" href="./sv_capston.html">
         충북 사랑의 매듭
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-
+  
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#">느린학습자란?</a>
                 <ul class="dropdown-menu">
                     <li><a href="#">정의</a></li>
-                    <li><a href="#">학술자료</a></li>
+                    <li><a href="#">활동나눔</a></li>
                 </ul>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">자가진단</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#">소통공간</a>
+                <a class="nav-link dropdown-toggle" href="./notice_board.html">소통공간</a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">자유게시판</a></li>
-                    <li><a href="#">Q&A</a></li>
-                    <li><a href="#">자료실</a></li>
+                    <li><a href="./notice_board.html">자유게시판</a></li>
+                    <li><a href="./qna.html">Q&A</a></li>
+                    <li><a href="./dataroom.html">자료실</a></li>
                 </ul>
             </li>
-
+  
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#">대화연습</a>
                 <ul class="dropdown-menu">
@@ -39,10 +40,8 @@
                 </ul>
             </li>
         </ul>
-
-        <a href="/login" class="btn btn-light mr-2">로그인</a>
-        <a href="/register" class="btn btn-light">회원가입</a>
-    </div>
-
-</nav>
-
+        
+        <a href="/login" class="btn btn-outline-info mr-2">로그인</a>
+        <a href="/register" class="btn btn-outline-success">회원가입</a>
+      </div>
+  </nav>

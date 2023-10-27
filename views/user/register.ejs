@@ -1,2 +1,26 @@
 <!-- register -->
 <!-- 회원가입 페이지 -->
+
+<form action="/register" method="post">
+    <section class="login">
+        <h2>회원가입</h2>
+        <ul style="list-style-type: none">
+            <li><input type="text" placeholder="이메일(아이디)" title="아이디입력" name="email"/>
+            </li>
+            <li>
+                <input type="password" placeholder="비밀번호" title="비밀번호입력"  name="password"/>
+            </li>
+            <li>
+                <input type="password" placeholder="비밀번호 확인" title="비밀번호확인"  name="password_chk"/>
+            </li>
+            <li>
+                <input type="text" placeholder="닉네임" title="비밀번호입력"  name="nickname"/>
+            </li>
+            <li>
+                <input type="checkbox" id="chk_id" value="on" /><label for="chk_id">개인정보 처리방침에 동의합니다.</label>
+            </li>
+
+            <button>회원가입</button>
+        </ul>
+    </section>
+</form>

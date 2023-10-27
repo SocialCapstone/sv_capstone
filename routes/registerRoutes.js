@@ -3,13 +3,9 @@
 
 const express = require('express');
 const router = express.Router({ mergeParams: true });
+const userController = require('../controller/userController');
 
-router.get('/', (req, res) => {
-    res.render('user/register');
-})
-
-router.post('/', (req, res) => {
-    
-})
+router.get('/', userController.signUp);
+router.post('/', userController.postRegister);
 
 module.exports = router;

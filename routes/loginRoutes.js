@@ -3,15 +3,10 @@
 
 const express = require('express');
 const router = express.Router({ mergeParams: true });
+const userController = require('../controller/userController')
 
-router.get('/', (req, res) => {
-    res.render('user/login');
-})
-
-router.post('/', (req, res) => {
-    console.log(req.body);
-    res.redirect('/login');
-})
+router.get('/', userController.signIn);
+router.post('/', userController.postLogin);
 
 
 module.exports = router;
