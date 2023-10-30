@@ -14,6 +14,7 @@ const flash = require('connect-flash');
 const sessionConfig = require('./config/sessionConfig');
 const bcrypt = require('bcrypt');
 const board = require('./models/board');
+
 require('dotenv').config()
 
 
@@ -24,6 +25,7 @@ app.use(layouts);
 // body-parser의 추가
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
 
 // passport & cookieParser
 app.use(session(sessionConfig));
@@ -39,7 +41,7 @@ app.use((req, res, next) => {
 })
 
 app.use(methodOverride('_method'));
-app.use(express.static("public"));
+app.use(express.static(__dirname + '/public/'));
 
 
 const homeRouter = require('./routes/homeRoutes');
@@ -57,7 +59,7 @@ app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 
 // ** 자유게시판 라우트 ** 
-
+app.use('/board', boardRouter);
 
 app.listen(port, () => {
     console.log(`http://localhost:${port}`);

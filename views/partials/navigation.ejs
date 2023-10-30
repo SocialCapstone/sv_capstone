@@ -1,15 +1,15 @@
 <!-- navigation.ejs -->
 <!-- 사이트 상단 -->
 
-<nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
-    <a class="navbar-brand" href="./sv_capston.html">
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+    <a class="navbar-brand" href="/">
         충북 사랑의 매듭
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-  
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
@@ -19,33 +19,32 @@
                     <li><a href="#">활동나눔</a></li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">자가진단</a>
-            </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="./notice_board.html">소통공간</a>
+                <a class="nav-link dropdown-toggle" href="/board">소통공간</a>
                 <ul class="dropdown-menu">
-                    <li><a href="./notice_board.html">자유게시판</a></li>
-                    <li><a href="./qna.html">Q&A</a></li>
-                    <li><a href="./dataroom.html">자료실</a></li>
+                    <li><a href="/board">자유게시판</a></li>
+                    <li><a href="/qna">Q&A</a></li>
+                    <li><a href="/reference">자료실</a></li>
                 </ul>
             </li>
-  
+
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#">대화연습</a>
+                <a class="nav-link dropdown-toggle" href="/test/element">대화연습</a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">초급</a></li>
-                    <li><a href="#">중급</a></li>
-                    <li><a href="#">고급</a></li>
+                    <li><a href="/test/element">초급</a></li>
+                    <li><a href="/test/middle">중급</a></li>
+                    <li><a href="/test/high">고급</a></li>
                 </ul>
             </li>
         </ul>
         <% if(loggedIn) {%>
-            <a href="/myPage/<%=currentUser.user_id%>" class="btn btn-outline-info mr-2"><%=currentUser.nickname%></a>
+            <a href="/myPage/<%=currentUser.user_id%>" class="btn btn-outline-info mr-2">
+                <%=currentUser.nickname%>
+            </a>
             <a href="" class="btn btn-success">로그아웃</a>
-        <%} else{ %>
-        <a href="/login" class="btn btn-outline-info mr-2">로그인</a>
-        <a href="/register" class="btn btn-outline-dark">회원가입</a>
-        <%} %>
-      </div>
-  </nav>
+            <%} else{ %>
+                <a href="/login" class="btn btn-outline-info mr-2">로그인</a>
+                <a href="/register" class="btn btn-outline-dark">회원가입</a>
+                <%} %>
+    </div>
+</nav>
