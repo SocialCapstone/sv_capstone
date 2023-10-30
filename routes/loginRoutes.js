@@ -3,10 +3,15 @@
 
 const express = require('express');
 const router = express.Router({ mergeParams: true });
-const userController = require('../controller/userController')
+const userController = require('../controller/userController');
+const passport = require('passport');
 
 router.get('/', userController.signIn);
-router.post('/', userController.postLogin);
+router.post('/', passport.authenticate('local-signIn', {
+    successRedirect: '/',
+    failureRedirect: '/error',
+    failureFlash: true
+}));
 
 
 module.exports = router;

@@ -1,24 +1,6 @@
 // models/User.js
 
 const mysql = require('../config/mysql');
-const bcrypt = require('bcrypt');
-
-const hashPassword = async (user) => {
-    const salt = await bcrypt.genSalt(12);
-    const hash = await bcrypt.hash(user.password, salt);
-    return hash;
-}
-
-const login = async (pw, hashedPw) => {
-    try {
-        const result = await bcrypt.compare(pw, hashedPw);
-        return result;
-    }
-    catch {
-        return 'error!';
-    }
-
-}
 
 
 let User = function (user) {
@@ -27,44 +9,43 @@ let User = function (user) {
     this.nickname = user.nickname;
 }
 
-
-// register: 사용자 등록(회원가입) 
-User.register = async function (body, callBack) {
-    const newUser = new User(body);
-    newUser.password = await hashPassword(newUser);
-    const { email, password, nickname } = newUser;
-
-    mysql.query('INSERT INTO user(email,password,nickname) VALUES (?,?,?)', [email, password, nickname], (err, res) => {
-        if (err) {
-            console.log('Something went wrong');
-            callBack(err, null);
-        }
-        else {
-            console.log('User Registered:');
-            callBack(null, res);
-
-        }
-    })
+User.findByEmail = function (email) {
+    const sql = `SELECT * FROM user WHERE email =?`;
+    return mysql.promise().query(sql, [email])
+        .then(rows => {
+            if (rows.length > 0) {
+                return rows[0];
+            }
+            else {
+                return null;
+            }
+        })
 }
 
-// login: 사용자 로그인(로그인)
-User.login = async function (body, callBack) {
-    const { email, password } = body;
-    mysql.query('SELECT * FROM user WHERE email=?', email, (err, res) => {
-        if (err) {
-            console.log('Something went wrong');
-            callBack(err, null);
-        }
-        else {
-            const hashedPassword = res[0].password;
-            const isLoggedin = login(password, hashedPassword);
-            isLoggedin.then(isCorrect => {
-               callBack(null, isCorrect);
-            })
-        }
-    })
-
-
+User.findById = function (id, callback) {
+    const sql = `SELECET * FROM user WHERE user_id=?`;
+    return mysql.promise().query(sql, [id])
+        .then(rows => {
+            if (rows.length > 0) {
+                return rows[0];
+            }
+            else {
+                return null;
+            }
+        })
 }
+
+
+User.createUser = function (email, hashedPassword, nickname) {
+    const sql = `INSERT INTO user(email, password,nickname) VALUES (?,?,?)`;
+    return mysql.promise().query(sql, [email, hashedPassword, nickname])
+        .then(result => {
+            return result[0].insertId;
+        })
+}
+
+
+
+
 
 module.exports = User;
