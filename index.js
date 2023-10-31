@@ -7,13 +7,11 @@ const port = 3000 || process.env.WEB_PORT;
 const methodOverride = require('method-override');
 const layouts = require('express-ejs-layouts');
 const passport = require('./config/passport');
-const LocalStrategy = require('passport-local');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const sessionConfig = require('./config/sessionConfig');
-const bcrypt = require('bcrypt');
-const board = require('./models/board');
+
 
 require('dotenv').config()
 
@@ -29,9 +27,11 @@ app.use(express.json());
 
 // passport & cookieParser
 app.use(session(sessionConfig));
+app.use(flash());
+app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
+
 
 
 app.use((req, res, next) => {
@@ -48,6 +48,7 @@ const homeRouter = require('./routes/homeRoutes');
 const loginRouter = require('./routes/loginRoutes');
 const registerRouter = require('./routes/registerRoutes');
 const boardRouter = require('./routes/boardRoutes');
+const testRouter = require('./routes/testRoutes');
 
 app.use('/', homeRouter);
 app.get('/error', (req, res) => {
@@ -60,6 +61,9 @@ app.use('/register', registerRouter);
 
 // ** 자유게시판 라우트 ** 
 app.use('/board', boardRouter);
+
+// ** 대화연습 라우트
+app.use('/test', testRouter);
 
 app.listen(port, () => {
     console.log(`http://localhost:${port}`);

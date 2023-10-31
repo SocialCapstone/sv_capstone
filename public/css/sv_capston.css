@@ -6,7 +6,8 @@ section img {
 nav,
 a.navbar-brand,
 a.btn,
-ul.dropdown-menu {
+ul.dropdown-menu,
+footer {
   font-size: 1.7rem;
 }
 
