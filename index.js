@@ -15,8 +15,6 @@ const sessionConfig = require('./config/sessionConfig');
 
 require('dotenv').config()
 
-
-
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(layouts);
@@ -50,14 +48,19 @@ const registerRouter = require('./routes/registerRoutes');
 const boardRouter = require('./routes/boardRoutes');
 const testRouter = require('./routes/testRoutes');
 
+const userController = require('./controller/userController');
+
 app.use('/', homeRouter);
 app.get('/error', (req, res) => {
     res.send("error!");
 })
 
-// ** 로그인 회원가입 라우트 ** 
+// ** 로그인 회원가입 라우트 및 로그아웃 get 요청 ** 
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
+app.get('/logout', userController.signOut);
+
+
 
 // ** 자유게시판 라우트 ** 
 app.use('/board', boardRouter);

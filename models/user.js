@@ -10,7 +10,7 @@ let User = function (user) {
 }
 
 User.findByEmail = function (email) {
-    const sql = `SELECT * FROM user WHERE email =?`;
+    const sql = `SELECT * FROM user_info WHERE email =?`;
     return mysql.promise().query(sql, [email])
         .then(rows => {
             if (rows.length > 0) {
@@ -22,8 +22,8 @@ User.findByEmail = function (email) {
         })
 }
 
-User.findById = function (id, callback) {
-    const sql = `SELECET * FROM user WHERE user_id=?`;
+User.findById = function (id) {
+    const sql = `SELECT * FROM user_info WHERE user_id=?`;
     return mysql.promise().query(sql, [id])
         .then(rows => {
             if (rows.length > 0) {
@@ -37,7 +37,7 @@ User.findById = function (id, callback) {
 
 
 User.createUser = function (email, hashedPassword, nickname) {
-    const sql = `INSERT INTO user(email, password,nickname) VALUES (?,?,?)`;
+    const sql = `INSERT INTO user_info(email, password,nickname) VALUES (?,?,?)`;
     return mysql.promise().query(sql, [email, hashedPassword, nickname])
         .then(result => {
             return result[0].insertId;

@@ -35,9 +35,13 @@ passport.use('local-signUp', new LocalStrategy({
                         return done(err);
                     }
                     User.createUser(email, hashedPassword, nickname)
-                        .then(newUser => {
-                            console.log(newUser);
-                            return done(null, newUser);
+                        .then(id => {
+                            console.log(id);
+                            User.findById(id)
+                                .then(user => {
+                                    console.log(user[0]);
+                                    return done(null, user[0]);
+                                });
                         })
                         .catch(err => {
                             return done(err);
@@ -48,8 +52,9 @@ passport.use('local-signUp', new LocalStrategy({
         .catch(err => {
             return done(err);
         });
-
 }));
+
+
 
 passport.use('local-signIn', new LocalStrategy({
     usernameField: 'email',

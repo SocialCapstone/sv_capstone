@@ -24,8 +24,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   /* display: none; */
-  width: 540px;
-  height: 540px;
+  width: 600px;
+  height: 600px;
   background: #fff;
   border-radius: 5px;
 }
@@ -61,7 +61,7 @@
 
 .info_box .info_list {
   padding: 15px 35px;
-  font-size: 1.65rem;
+  font-size: 1.5rem;
 }
 
 .info_box .info_list .lnfo {
