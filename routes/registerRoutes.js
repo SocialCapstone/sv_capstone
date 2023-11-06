@@ -9,7 +9,7 @@ const passport = require('passport');
 router.get('/', userController.signUp);
 router.post('/', passport.authenticate('local-signUp', {
     successRedirect: '/',
-    failureRedirect: '/error',
+    failureRedirect: '/register',
     failureFlash: true
 }));
 

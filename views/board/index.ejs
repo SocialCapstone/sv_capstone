@@ -56,9 +56,21 @@
             <a href="#" class="bt next">></a>
             <a href="#" class="bt last">>></a>
         </div>
+        <% if(loggedIn) {%>
         <div class="bt_wrap">
             <a href="/board/new" class="on">등록</a>
-            <!--<a href="#">수정</a>-->
+            
         </div>
+        <%} else { %>
+        <div class="bt_wrap">
+            <a id="notLogin"href="/login" class="on">등록</a>
+            <script>
+                const notLogin = document.querySelector("#notLogin");
+                notLogin.addEventListener('click', ()=> {
+                    alert("게시글 작성은 로그인 후 작성할 수 있습니다.");
+                });
+            </script>
+        </div>
+        <%}%>
     </div>
 </div>

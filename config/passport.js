@@ -26,7 +26,7 @@ passport.use('local-signUp', new LocalStrategy({
         .then(user => {
             if (user.length > 0) {
                 console.log(user, "이미 존재");
-                return done(null, false, req.flash('signupMessage', '이미 등록된 이메일입니다.'));
+                return done(null, false, req.flash('error', '이미 등록된 이메일입니다.'));
             }
             else {
                 console.log(user, "안존재")
@@ -67,7 +67,7 @@ passport.use('local-signIn', new LocalStrategy({
             console.log(user);
             if (user.length === 0) {
                 console.log("존재하지 않는 사용자");
-                return done(null, false, req.flash('signInMessage', '존재하지 않는 사용자입니다.'));
+                return done(null, false, req.flash('error', '존재하지 않는 사용자입니다.'));
             }
             else {
                 console.log(password, user[0].password);
@@ -80,6 +80,7 @@ passport.use('local-signIn', new LocalStrategy({
                         return done(null, user[0]);
                     } else {
                         console.log('비밀번호 불일치');
+                        req.flash('error',"아이디 또는 비밀번호가 일치하지 않습니다.");
                         return done(err);
                     }
                 })

@@ -11,17 +11,17 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const sessionConfig = require('./config/sessionConfig');
-
-
+const multer = require('multer');
 require('dotenv').config()
+
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(layouts);
+
 // body-parser의 추가
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-
 
 // passport & cookieParser
 app.use(session(sessionConfig));
@@ -33,6 +33,8 @@ app.use(passport.session());
 
 
 app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
     res.locals.loggedIn = req.isAuthenticated();
     res.locals.currentUser = req.user;
     next();
@@ -59,8 +61,6 @@ app.get('/error', (req, res) => {
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.get('/logout', userController.signOut);
-
-
 
 // ** 자유게시판 라우트 ** 
 app.use('/board', boardRouter);

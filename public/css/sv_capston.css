@@ -8,9 +8,13 @@ a.navbar-brand,
 a.btn,
 ul.dropdown-menu,
 footer {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 
+.container {
+  width: 80% !important;
+  max-width: 85% !important;
+}
 
 
 #text1 {
@@ -99,7 +103,7 @@ section button {
 }
 
 #bold {
-  margin-left: 150px;
+
   font-size: 40px;
   color: navy;
   font-weight: bold;
@@ -107,15 +111,15 @@ section button {
 }
 
 #bold_1 {
-  margin-left: 150px;
+
   font-weight: 1px bold;
   font-family: sans-serif;
 }
 
 .jm-font {
-  margin-left: 150px;
+  padding-top: 1.4rem;
   color: rgb(67, 69, 73);
-  font-size: 20px;
+  font-size: 1.4rem;
 }
 
 p strong {
@@ -130,31 +134,21 @@ p strong {
 #child {
   width: 400px;
   height: 300px;
-  margin-top: 150px;
-  margin-left: 50px;
-
 }
 
-.active {
-  background-color: rgb(229, 231, 235);
-  border-width: 0;
-  border-style: solid;
-  width: 100%;
-  height: 700px;
-  position: absolute;
-}
 
-.active #active_text {
+
+#active_text {
   font-size: 32px;
   font-weight: 700;
-  margin-left: 150px;
+  margin-bottom: 15px;
   font-family: sans-serif;
+  display: inline-block;
 }
 
-.active #active_btn {
-  position: absolute;
-  margin-left: 1250px;
+#active_btn {
   top: 30px;
+  margin-left: 450px;
   padding: 12.5px 30px;
   border: 0;
   border-radius: 100px;
@@ -162,9 +156,11 @@ p strong {
   background-color: #d8d8d8;
   color: #ffffff;
   font-weight: Bold;
+  font-size: 1rem;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
   text-shadow: 1px 1px 1px #000;
+  display: inline-block;
 }
 
 .active #active_btn:hover {
@@ -174,14 +170,15 @@ p strong {
 
 /*ī�� css*/
 #card {
+  background-color: rgb(229, 231, 235);
   width: 350px;
   border-radius: 8px;
   text-align: center;
   overflow: hidden;
-  margin: 50px;
   margin-left: 90px;
   transition: all 0.3s cubic-bezier(0.42, 0, 0.58, 1);
 }
+
 
 #card img {
   text-align: center;
@@ -224,29 +221,24 @@ p strong {
   line-height: 18px;
 }
 
-.introduce {
+/* .introduce {
   background-color: #ffffff;
-  width: 100%;
-  height: 800px;
-  margin-top: 100px;
-}
+  width: 90%;
+} */
 
-.introduce h3 {
+#introduce h3 {
   position: absolute;
-  margin-top: 650px;
   font-weight: bold;
   font-size: 30px;
 }
 
-.introduce p {
+#introduce p {
   position: absolute;
   font-size: 15px;
   font-weight: bold;
-  margin-top: 650px;
-  margin-left: 450px;
 }
 
-.introduce img {
+#introduce img {
   width: 50px;
   height: 50px;
   margin-top: 630px;
