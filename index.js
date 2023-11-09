@@ -11,7 +11,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const sessionConfig = require('./config/sessionConfig');
-const multer = require('multer');
+const ExpressError = require('./utils/ExpressError');
 require('dotenv').config()
 
 
@@ -67,6 +67,15 @@ app.use('/board', boardRouter);
 
 // ** 대화연습 라우트
 app.use('/test', testRouter);
+
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not found 404', 404));
+})
+
+app.use((err, req, res, next) => {
+    const { statusCode = 500, message = "SOMETHING WENT WRONG!" } = err;
+    res.status(statusCode).render('error', { err, statusCode });
+})
 
 app.listen(port, () => {
     console.log(`http://localhost:${port}`);

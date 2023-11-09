@@ -1,0 +1,20 @@
+<!-- error.ejs -->
+
+<!-- 서버 에러 발생시 연결되는페이지 -->
+<div class="row mt-5">
+    <div class="col-6 offset-3">
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading"><%=statusCode%> Error!
+
+            </h4>
+            <p>오류가 발생했습니다.
+               <br> <%=err.message%>
+            </p>
+            <hr>
+            <p class="mb-0">
+                <a href="/">메인 화면으로 돌아가기.</a>
+
+            </p>
+        </div>
+    </div>
+</div>
