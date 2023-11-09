@@ -52,10 +52,6 @@ module.exports = {
         const indexPosts = await Board.findByPage(data);
         res.render('board/index', { indexPosts, prev, next, startPage, endPage, currentPage: page });
     },
-    // 단일 게시글 확인   
-    show: (req, res) => {
-        res.render('board/show');
-    },
     // 게시글 작성 페이지 
     new: (req, res) => {
         res.render('board/new');
@@ -86,8 +82,7 @@ module.exports = {
             Board.create(data)
                 .then(id => {
                     if (id) {
-                        console.log(id);
-
+                        res.redirect(`/board/${id}`);
                     }
                     else {
                         res.redirect('/');
@@ -100,7 +95,8 @@ module.exports = {
         }
     },
 
-    show: (req, res) => {
+    
+    show: async (req, res) => {
 
         const id = parseInt(req.params.id);
         Board.findById(id)
