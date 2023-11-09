@@ -95,7 +95,7 @@ module.exports = {
         }
     },
 
-    
+    // 단일 게시물 보기 
     show: async (req, res) => {
 
         const id = parseInt(req.params.id);
