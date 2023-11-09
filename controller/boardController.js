@@ -71,7 +71,7 @@ module.exports = {
             const { user_id, author, title, content, date, count } = newBoard;
 
             if (req.file) {
-                img = `/image/board/${req.file.filename}`;
+                img = `/image/Board/${req.file.filename}`;
             }
             else {
                 img = null;
