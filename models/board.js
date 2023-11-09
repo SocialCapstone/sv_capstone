@@ -27,7 +27,7 @@ Board.create = function (data) {
 }
 
 Board.findById = function (id) {
-    const sql = `SELECT * FROM board WHERE post_id=?`;
+    const sql = `SELECT post_id, author, title, content, img, date_format(date, '%Y-%m-%d') AS date, count FROM board WHERE post_id=?`;
     return mysql.promise().query(sql, [id])
         .then(rows => {
             if (rows.length > 0) {
@@ -39,8 +39,30 @@ Board.findById = function (id) {
         })
 }
 
-Board.findByPage = function (page) {
+Board.findByPage = function (data) {
+    const sql = `SELECT post_id, author, title, date_format(date, '%Y-%m-%d') AS date, count FROM board LIMIT ?,?`;
+    return mysql.promise().query(sql, data)
+        .then(rows => {
+            if (rows.length > 0) {
+                return rows[0];
+            }
+            else {
+                return null;
+            }
+        })
+}
 
+Board.countAll = function () {
+    const sql = `SELECT COUNT(*) AS total FROM board`;
+    return mysql.promise().query(sql)
+        .then(rows => {
+            if (rows.length > 0) {
+                return rows[0];
+            }
+            else {
+                return null;
+            }
+        })
 }
 
 

@@ -3,7 +3,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const port = 3000 || process.env.WEB_PORT;
+const port = 8000 || process.env.WEB_PORT;
 const methodOverride = require('method-override');
 const layouts = require('express-ejs-layouts');
 const passport = require('./config/passport');

@@ -21,8 +21,8 @@ const upload = multer({ storage: storage });
 
 router.get('/', boardController.index);
 router.get('/new', boardController.new);
-router.post('/', upload.single("img"), boardController.create);
 router.get('/show', boardController.show);
 router.get('/:id',boardController.show);
+router.post('/', upload.single("img"), boardController.create);
 
 module.exports = router;

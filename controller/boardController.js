@@ -4,12 +4,53 @@
 
 const Board = require('../models/board');
 
+// ** 게시판 페이징 알고리즘 함수 **
+const hasPrev = (startPage) => {
+    return (startPage == 1) ? false : true;
+}
+
+const hasNext = (endPage, totalPages) => {
+    return (endPage == totalPages) ? false : true;
+}
+
+const getTotalPages = (totalPost, postPerPage) => {
+    return parseInt((totalPost - 1) / postPerPage) + 1;
+}
+
+const getStartPage = (currentPage, displayPageNum) => {
+    return parseInt((currentPage - 1) / displayPageNum) * displayPageNum + 1;
+}
+
+const getEndPage = (currentPage, displayPageNum, totalPages) => {
+    let endPage = (parseInt((currentPage - 1) / displayPageNum) + 1) * displayPageNum;
+
+    if (totalPages < endPage) endPage = totalPages;
+    return endPage;
+}
 
 
 module.exports = {
+
     // 게시판 목록
-    index: (req, res) => {
-        res.render('board/index');
+    index: async (req, res) => {
+
+        const page = parseInt(req.query.page) || 1;
+        const postPerPage = 10;
+        const displayPageNum = 10;
+        const totalPosts = await Board.countAll();
+
+        const totalPages = getTotalPages(totalPosts[0].total, postPerPage);
+        const startPage = getStartPage(page, displayPageNum);
+        const endPage = getEndPage(page, displayPageNum, totalPages);
+
+        const prev = hasPrev(startPage);
+        const next = hasNext(endPage, totalPages);
+
+        const offset = (page - 1) * postPerPage;
+        const data = [offset, postPerPage];
+
+        const indexPosts = await Board.findByPage(data);
+        res.render('board/index', { indexPosts, prev, next, startPage, endPage, currentPage: page });
     },
     // 단일 게시글 확인   
     show: (req, res) => {
@@ -41,10 +82,12 @@ module.exports = {
             }
 
             const data = [user_id, author, title, content, img, date, count];
+
             Board.create(data)
                 .then(id => {
                     if (id) {
-                        res.redirect(`/board/${id}`);
+                        console.log(id);
+
                     }
                     else {
                         res.redirect('/');
@@ -52,7 +95,7 @@ module.exports = {
                 });
 
         }
-        else{
+        else {
             res.send('로그인을 하시고 글을 쓸 수 있습니다.');
         }
     },
