@@ -12,7 +12,8 @@ const cookieParser = require('cookie-parser');
 const flash = require('connect-flash');
 const sessionConfig = require('./config/sessionConfig');
 const ExpressError = require('./utils/ExpressError');
-require('dotenv').config();
+
+require('dotenv').config()
 
 
 app.set('view engine', 'ejs');
@@ -20,7 +21,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(layouts);
 
 // body-parser의 추가
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // passport & cookieParser
@@ -40,7 +41,9 @@ app.use((req, res, next) => {
     next();
 })
 
-app.use(methodOverride('_method'));
+app.use(methodOverride("_method", {
+    methods: ["POST", "GET"]
+}))
 app.use(express.static(__dirname + '/public/'));
 
 

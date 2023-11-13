@@ -1,2 +1,50 @@
 <!-- board/new.ejs -->
 <!-- 자유게시판 게시글 수정 -->
+
+<form action="/board/<%=board.post_id%>/update?_method=PUT" method="post" enctype="multipart/form-data">
+    <div class="board_wrap">
+        <div class="board_title">
+            <strong>자유게시판</strong>
+        </div>
+        <div class="board_write_wrap">
+            <div class="board_write">
+                <div class="title">
+                    <dl>
+                        <dt>제목</dt>
+                        <dd><input type="text" placeholder="제목 입력" name="title" value="<%=board.title%>"></dd>
+                    </dl>
+                </div>
+                <div class="info">
+                    <dl>
+                        <dt>익명글쓰기</dt>
+                        <dd><input type="checkbox" name="isAnonymous" value="true"></dd>
+                    </dl>
+                </div>
+                <div class="cont">
+                    <textarea placeholder="내용 입력" name="content" wrap="hard"><%=board.content%></textarea>
+                </div>
+                <div class="info">
+                    <dl>
+                        <dt>이미지 첨부</dt>
+                        <dd><input type="file" accept="image/png, jpg " name="img" id=""></dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="bt_wrap">
+                <button>수정</button>
+                <a href="/board">취소</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    const form = document.querySelector('form');
+    const textarea = document.querySelector('textarea');
+    textarea.value = textarea.value.replaceAll("<br>", "\r\n");
+
+    form.addEventListener('submit', (e) => {
+        textarea.value = textarea.value.replace(/(?:\r\n|\r|\n)/g, '<br>');
+    })
+
+</script>

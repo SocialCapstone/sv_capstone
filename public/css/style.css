@@ -67,7 +67,7 @@ a {
     border-top: 2px solid #000;
 }
 
-.board_list> div {
+.board_list>div {
     border-bottom: 1px solid #ddd;
     font-size: 0;
 }
@@ -202,9 +202,7 @@ a {
     font-size: 1.4rem;
 }
 
-d
-
-.board_view .info dl dd {
+d .board_view .info dl dd {
     margin-left: 10px;
     color: #777;
 }
@@ -263,8 +261,7 @@ d
 .board_write .title input[type="text"],
 .board_write .info input[type="text"],
 .board_write .info input[type="password"],
-.board_write .info input[type="checkbox"]
-.board_write .info input[type="file"] {
+.board_write .info input[type="checkbox"] .board_write .info input[type="file"] {
     padding: 10px;
     box-sizing: border-box;
 }
@@ -275,9 +272,9 @@ d
     height: 20px;
 }
 
-.board_write .info input[type="file"]{
+.board_write .info input[type="file"] {
     margin: 10px 10px;
-} 
+}
 
 .board_write .title input[type="text"] {
     width: 80%;
@@ -297,4 +294,24 @@ d
     font-size: 1.3rem;
     border: 0;
     resize: vertical;
+}
+
+.small>a {
+    font-size: 1.3rem;
+}
+
+p.mb5 {
+    font-size: 1.3rem;
+}
+
+#content > #date {
+    font-size: 1rem;
+}
+
+#content > p {
+    font-size:1.3rem;
+}
+
+#date {
+    font-size: 0.5rem;
 }

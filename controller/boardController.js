@@ -2,7 +2,11 @@
 
 // controller/boardController.js
 
-const Board = require('../models/board');
+const { Board, Comment } = require('../models/board');
+
+const ExpressError = require('../utils/ExpressError');
+require('dotenv').config()
+
 
 // ** 게시판 페이징 알고리즘 함수 **
 const hasPrev = (startPage) => {
@@ -63,6 +67,7 @@ module.exports = {
         if (res.locals.loggedIn) {
             const newBoard = new Board(req.body, res.locals.currentUser);
             const { isAnonymous } = req.body;
+
             if (isAnonymous === "true") {
                 newBoard.author = "익명";
             }
@@ -70,44 +75,151 @@ module.exports = {
 
             const { user_id, author, title, content, date, count } = newBoard;
 
+            // 이미지 저장시 또는 저장하지 않을때 
             if (req.file) {
-                img = `/image/Board/${req.file.filename}`;
+                img = req.file.path;
             }
             else {
                 img = null;
             }
 
+            // 게시글 저장시 아무것도 입력되지 않을때, 다시 입력
             const data = [user_id, author, title, content, img, date, count];
-
-            Board.create(data)
-                .then(id => {
-                    if (id) {
-                        res.redirect(`/board/${id}`);
-                    }
-                    else {
-                        res.redirect('/');
-                    }
-                });
-
+            if (title === '' || content === '') {
+                req.flash('error', "내용을 비우지 말아주세요");
+                res.redirect('/board/new');
+            }
+            else {
+                Board.create(data)
+                    .then(id => {
+                        if (id) {
+                            res.redirect(`/board/${id}`);
+                        }
+                        else {
+                            next(new ExpressError('게시글 작성 오류 발생', 500));
+                        }
+                    });
+            }
         }
+
         else {
-            res.send('로그인을 하시고 글을 쓸 수 있습니다.');
+            next(new ExpressError('로그인을 하시고 글을 쓸 수 있습니다.', 500));
         }
     },
 
     // 단일 게시물 보기 
-    show: async (req, res) => {
+    show: async (req, res, next) => {
 
         const id = parseInt(req.params.id);
-        Board.findById(id)
-            .then(board => {
-                console.log(board[0]);
-                res.render('board/show', { board: board[0] });
-            })
-            .catch(err => {
-                console.log(err);
-                res.redirect('/');
-            })
-    }
+        const board = await Board.findById(id);
+        const comments = await Comment.findCommentById(id);
+        // 게시글이 존재하지 않을때
+        if (board.length === 0) {
+            next(new ExpressError('존재하지 않는 게시글입니다.', 404));
+        }
+        else {
+            res.render('board/show', { board: board[0], comments });
+        }
+    },
 
+    // 게시글 수정페이지  
+    edit: async (req, res, next) => {
+
+        const id = parseInt(req.params.id);
+        // 로그인 & 사용자가 맞을때 접근 가능 
+        const board = await Board.findById(id);
+        if (res.locals.loggedIn && res.locals.currentUser.user_id === board[0].user_id) {
+            res.render('board/edit', { board: board[0] });
+        }
+        else if (board.length === 0) {
+            next(new ExpressError('존재하지 않는 게시글입니다.', 404));
+
+        }
+        else {
+            next(new ExpressError('접근 권한이 없습니다.', 500));
+        }
+    },
+
+    // 게시글 수정하기
+    update: async (req, res) => {
+
+        if (res.locals.loggedIn) {
+            const newBoard = new Board(req.body, res.locals.currentUser);
+            const { isAnonymous } = req.body;
+            const post_id = req.params.id;
+
+            if (isAnonymous === "true") {
+                newBoard.author = "익명";
+            }
+            let img;
+            const { author, title, content, date } = newBoard;
+            // 이미지 저장시 또는 저장하지 않을때 
+            if (req.file) {
+                img = req.file.path;
+            }
+            else {
+                img = null;
+            }
+
+            // 게시글 저장시 아무것도 입력되지 않을때, 다시 입력
+            const data = [author, title, content, date, img, post_id];
+            // 내용을 작성하지 않을때 
+            if (title === '' || content === '') {
+                req.flash('error', "내용을 비우지 말아주세요");
+                res.redirect(`/board/${post_id}/edit`);
+            }
+            else {
+                Board.updateBoard(data)
+                    .then(result => {
+                        if (result) {
+                            res.redirect(`/board/${post_id}`);
+                        }
+                        else {
+                            next(new ExpressError('게시글 수정 오류 발생', 500));
+                        }
+                    })
+            }
+        }
+        else {
+            next(new ExpressError('로그인을 하시고 글을 수정할 수 있습니다.', 500));
+        }
+
+    },
+
+    // 게시글 삭제 요청
+    delete: async (req, res) => {
+        const { id } = req.params;
+        const board = await Board.findById(id);
+        if (res.locals.loggedIn && res.locals.currentUser.user_id === board[0].user_id) {
+            Board.deleteById(id)
+                .then(result => {
+                    if (result) {
+                        req.flash('success', '게시글이 삭제되었습니다.');
+                        res.redirect(`/board`);
+                    }
+                    else {
+                        next(new ExpressError('게시글 삭제 오류 발생', 500));
+                    }
+                })
+        }
+        else {
+            next(new ExpressError('잘못된 접근입니다.', 500))
+        }
+    },
+
+    // 게시글 댓글 작성 
+    createComment: (req, res) => {
+        const { id } = req.params;
+        const newComment = new Comment(req.body, id, res.locals.currentUser);
+        const { post_id, user_id, author, content, date } = newComment;
+        const data = [post_id, user_id, author, content, date];
+        Comment.create(data);
+
+        res.redirect(`/board/${post_id}`);
+    },
+
+    // 게시글 댓글 수정 
+    updateComment: (req, res) => {
+        const { id, comment_id } = req.params;
+    }
 }

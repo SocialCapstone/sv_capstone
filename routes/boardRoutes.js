@@ -5,24 +5,19 @@ const router = express.Router({ mergeParams: true });
 const boardController = require('../controller/boardController');
 
 const multer = require('multer');
-const path = require('path');
-
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "public/image/Board");
-    },
-    filename: (req, file, cb) => {
-        const ext = path.extname(file.originalname);
-        cb(null, path.basename(file.originalname, ext) + "-" + Date.now() + ext)
-    }
-})
-
-const upload = multer({ storage: storage });
+const { storage } = require('../config/cloudinary');
+const upload = multer({ storage });
 
 router.get('/', boardController.index);
 router.get('/new', boardController.new);
-router.get('/show', boardController.show);
-router.get('/:id',boardController.show);
+router.get('/:id', boardController.show);
+router.get('/:id/edit', boardController.edit);
 router.post('/', upload.single("img"), boardController.create);
+router.put('/:id/update',upload.single("img"), boardController.update);
+router.delete('/:id/delete',boardController.delete);
+
+router.post('/:id/comment', boardController.createComment);
+router.put('/:id/comment/:comment_id', boardController.update);
+
 
 module.exports = router;
