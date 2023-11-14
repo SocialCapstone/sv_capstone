@@ -235,16 +235,15 @@ module.exports = {
             const newComment = new Comment(req.body, id, res.locals.currentUser);
             const { content, date, user_id } = newComment;
             const data = [content, date, parseInt(comment_id), user_id];
-            console.log(data);
+        
             Comment.updateComment(data)
                 .then(result => {
-                    if (result.length < 0) {
-                        req.flash('success', '댓글 수정 완료!');
-
+                    if (result.length > 0) {
+                        req.flash('error', '댓글을 수정하는데 실패했습니다.');
                         res.redirect(`/board/${id}`);
                     }
                     else {
-                        req.flash('error', '댓글을 수정하는데 실패했습니다.');
+                        req.flash('success', '댓글 수정 완료!');
                         res.redirect(`/board/${id}`);
                     }
 

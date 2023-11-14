@@ -1,2 +1,182 @@
 <!-- question/edit.ejs -->
 <!-- Q&A 게시글 확인 -->
+
+<div class="board_wrap">
+    <div class="board_title">
+        <strong>Q&A</strong>
+    </div>
+    <div class="board_view_wrap">
+        <div class="board_view">
+            <div class="title">
+                <%= qna.title %>
+            </div>
+            <div class="info">
+                <dl>
+                    <dt>번호</dt>
+                    <dd class="ml-2">
+                        <%=qna.post_id%>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>글쓴이</dt>
+                    <dd class="ml-2">
+                        <%=qna.author%>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>작성일</dt>
+                    <dd class="ml-2">
+                        <%=qna.date%>
+                    </dd>
+                </dl>
+                <dl>
+                    <dt>조회</dt>
+                    <dd class="ml-2">
+                        <%=qna.count%>
+                    </dd>
+                </dl>
+                <% if(loggedIn && currentUser.user_id===qna.user_id){%>
+                    <dl>
+                        <form id="deleteForm" action="/qna/<%=qna.post_id%>/delete?_method=DELETE" method="post">
+                            <dt><button class="btn btn-light">삭제</button></dt>
+                        </form>
+                    </dl>
+                    <% } %>
+            </div>
+            <div class="cont">
+                <p class="contents">
+                    <%=qna.content%>
+                </p>
+                <% if (qna.img) {%>
+                    <img src="<%=qna.img%>" alt="<%=qna.img%>" width="300px" height="300px">
+                    <% }%>
+            </div>
+        </div>
+        <div class="bt_wrap">
+            <a href="/qna" class="on">목록</a>
+            <% if(loggedIn && currentUser.user_id===qna.user_id){%>
+                <a href="/qna/<%=qna.post_id%>/edit">수정</a>
+                <%}%>
+        </div>
+    </div>
+    <div class="card mb-3 mt-3">
+        <form action="/qna/<%=qna.post_id%>/comment" id="commentForm" method="post">
+            <div class="card-body">
+                <h5 class="card-title">댓글 작성하기</h5>
+                <% if(loggedIn) {%>
+                    <textarea name="content" class="form-control" rows="5" placeholder="댓글을 작성해주세요"></textarea>
+                    <%} else {%>
+                        <textarea name="content" class="form-control" rows="5" placeholder="로그인을 하고 작성할 수 있습니다."
+                            readonly></textarea>
+                        <%}%>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary">등록</button>
+            </div>
+        </form>
+    </div>
+    <% for(let comment of comments) {%>
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex flex-start">
+                    <img class="rounded-circle shadow-1-strong me-3"
+                        src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-541.jpg?size=626&ext=jpg"
+                        alt="avatar" width="50" height="50" />
+                    <div class="w-100 ml-3">
+                        <form action="/qna/<%=qna.post_id%>/comment/<%=comment.comment_id%>?_method=PUT" method="post">
+                        <div id="content" class="justify-content-between align-items-center mb-3">
+                            <h5 class="text-primary fw-bold mb-0">
+                                <%=comment.author%>
+                            </h5>
+                            
+                            <p id="commentPara" class="text-dark ms-2 mt-2 contents">
+                                <%=comment.content%>
+                            </p>
+                            <p id="date" class="mb-0"> 작성일: <%=comment.date%>
+                            </p>
+                        </div>
+                         <div style="float:right">
+                                <% if(loggedIn && currentUser.user_id===comment.user_id) {%>
+                                    <button type="button" class="btn btn-light cancel" style="display: none">취소</button>
+                                    <button type="button" class="btn btn-light edit" style="display: inline-block">수정</button>
+                                    <button type="submit" class="btn btn-light edit" style="display: none">수정</button>
+                                </form>
+                                <form action="/qna/<%=qna.post_id%>/comment/<%=comment.comment_id%>?_method=DELETE" style="display: inline" method="post">
+                                    <button type="submit" class="btn btn-light delete" style="display: inline-block">삭제</button>
+                                </form>
+                                <%}%>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%}%>
+
+</div>
+
+<script>
+    const contents = document.querySelectorAll('.contents');
+    for (let content of contents) {
+        content.innerText = content.innerText.replaceAll('<br>', '\r\n');
+    }
+
+    const deleteForm = document.querySelector('#deleteForm');
+    deleteForm.addEventListener('submit', (e) => {
+        const isDelete = confirm('게시글을 삭제하시겠습니까?');
+        if (!isDelete) {
+            e.preventDefault();
+        }
+    })
+
+    const commentForm = document.querySelector('#commentForm');
+    const textarea = document.querySelector('textarea');
+    commentForm.addEventListener('submit', (e) => {
+        textarea.value = textarea.value.replace(/(?:\r\n|\r|\n)/g, '<br>');
+    })
+</script>
+
+
+<script>
+    const editButtons = document.querySelectorAll('.edit');
+    editButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            const container = button.parentElement.parentElement.parentElement;
+            const cancelButton = e.target.previousElementSibling;
+            const deleteButton = button.nextElementSibling.nextElementSibling;
+            const commentPara = container.querySelector('#commentPara');
+            const buttonEdit = button.nextElementSibling;
+            const editForm = commentPara.parentElement.parentElement;
+    
+            var contentComment = commentPara.innerText;
+            contentComment = contentComment.replaceAll("<br>", "\r\n");
+
+            // 수정 버튼을 누를시(수정할 입력폼을 나타내는 버튼); 
+            cancelButton.style.display = 'inline-block';
+            buttonEdit.style.display = 'inline-block';
+            button.style.display = 'none';
+            deleteButton.style.display = 'none';
+            commentPara.innerHTML = `<textarea class='form-control' id='editTextArea' name='content'>${contentComment}</textarea>`;
+            
+            // 수정 버튼을 누를시(수정한 내용을 업데이트하는 버튼);
+            editForm.addEventListener('submit', (e) => {
+                editTextArea.value = editTextArea.value.replace(/(?:\r\n|\r|\n)/g, '<br>');
+            });
+
+            buttonEdit.addEventListener('click', (e)=> {
+                buttonEdit.style.display= 'none';
+
+            });
+
+            // 취소 버튼을 누를시 
+            cancelButton.addEventListener('click', (e) => {
+                contentComment = contentComment.replace(/(?:\r\n|\r|\n)/g, '<br>');
+                commentPara.innerHTML = `<p id="commentPara" class="text-dark ms-2 mt-2 contents">${contentComment}</p>`
+                cancelButton.style.display = 'none';
+                buttonEdit.style.display = 'none';
+                deleteButton.style.display = 'inline-block';
+                button.style.display = 'inline-block';
+            });
+        })
+    })
+
+</script>

@@ -1,2 +1,66 @@
 <!-- question/index.ejs -->
 <!-- Q&A 게시글 목록 -->
+
+
+<div class="board_wrap">
+    <div class="board_title">
+        <strong>Q&A</strong>
+        <p>Q&A 게시판입니다.</p>
+    </div>
+    <div class="board_list_wrap">
+        <div class="board_list">
+            <div class="top">
+                <div class="num">번호</div>
+                <div class="title">제목</div>
+                <div class="writer">글쓴이</div>
+                <div class="date">작성일</div>
+                <div class="count">조회</div>
+            </div>
+            <% for (let post of indexPosts) {%>
+            <div>
+                <div class="num"><%= post.post_id%></div>
+                <div class="title"><a href="/qna/<%= post.post_id%>"><%= post.title%></a></div>
+                <div class="writer"><%= post.author%></div>
+                <div class="date"><%=post.date%></div>
+                <div class="count"><%=post.count%></div>
+            </div>
+            <% }%>
+        </div>
+
+        <!-- 페이지 이동 -->
+        <div class="board_page">
+            <% if(prev) {%>
+            <a href="/qna?page=<%=startPage-1%>" class="bt prev"><</a>
+            <%}%>
+
+            <% for(let page = startPage; page <=endPage; page++) {%>
+                <% if(page === currentPage) {%>
+                    <a href="/qna?page=<%=page%>" class="num on"><%=page%></a>
+                <% } else{%>
+                    <a href="/qna?page=<%=page%>" class="num"><%=page%></a> 
+                <%}%>
+            <%}%>
+            
+            <% if(next) {%>
+                <a href="/qna?page=<%=endPage+1%>" class="bt next">></a>
+            <%}%>
+            
+        </div>
+        
+        <% if(loggedIn) {%>
+        <div class="bt_wrap">
+            <a href="/qna/new" class="on">작성</a>
+        </div>
+        <%} else { %>
+        <div class="bt_wrap">
+            <a id="notLogin"href="/login" class="on">등록</a>
+            <script>
+                const notLogin = document.querySelector("#notLogin");
+                notLogin.addEventListener('click', ()=> {
+                    alert("게시글 작성은 로그인 후 작성할 수 있습니다.");
+                });
+            </script>
+        </div>
+        <%}%>
+    </div>
+</div>

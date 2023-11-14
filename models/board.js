@@ -29,7 +29,7 @@ Board.create = function (data) {
     const sql = `INSERT INTO board(user_id, author, title, content, img, date, count) VALUES(?,?,?,?,?,?,?)`
     return mysql.promise().query(sql, data)
         .then(result => {
-            console.log("successfully saved board");
+            console.log("successfully saved Question");
             return result[0].insertId;
         })
 }

@@ -52,6 +52,7 @@ const loginRouter = require('./routes/loginRoutes');
 const registerRouter = require('./routes/registerRoutes');
 const boardRouter = require('./routes/boardRoutes');
 const testRouter = require('./routes/testRoutes');
+const qnaRouter = require('./routes/qnaRoutes');
 
 const userController = require('./controller/userController');
 
@@ -67,7 +68,7 @@ app.get('/logout', userController.signOut);
 
 // ** 자유게시판 라우트 ** 
 app.use('/board', boardRouter);
-
+app.use('/qna', qnaRouter);
 // ** 대화연습 라우트
 app.use('/test', testRouter);
 
