@@ -17,7 +17,7 @@ router.put('/:id/update',upload.single("img"), boardController.update);
 router.delete('/:id/delete',boardController.delete);
 
 router.post('/:id/comment', boardController.createComment);
-router.put('/:id/comment/:comment_id', boardController.update);
-
+router.put('/:id/comment/:comment_id', boardController.updateComment);
+router.delete('/:id/comment/:comment_id', boardController.deleteComment);
 
 module.exports = router;

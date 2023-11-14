@@ -125,7 +125,7 @@ Comment.findCommentById = function (id) {
 }
 
 Comment.updateComment = function (data) {
-    const sql = `UPDATE board_comment content=? WHERE comment_id=?`
+    const sql = `UPDATE board_comment SET content=?, date=? WHERE comment_id=? AND user_id=?`
     return mysql.promise().query(sql, data)
         .then(rows => {
             if (rows.length > 0) {
@@ -135,8 +135,19 @@ Comment.updateComment = function (data) {
                 return null;
             }
         })
+}
 
-
+Comment.deleteComment = function (data) {
+    const sql = `DELETE FROM board_comment WHERE comment_id=? AND user_id=?`;
+    return mysql.promise().query(sql, data)
+        .then(rows => {
+            if (rows.length > 0) {
+                return rows[0];
+            }
+            else {
+                return null;
+            }
+        })
 }
 
 

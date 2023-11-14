@@ -83,7 +83,7 @@
                         src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-541.jpg?size=626&ext=jpg"
                         alt="avatar" width="50" height="50" />
                     <div class="w-100 ml-3">
-                        <form action="/board/<%board.board_id%>/comment/<%=comment.comment_id%>">
+                        <form action="/board/<%=board.post_id%>/comment/<%=comment.comment_id%>?_method=PUT" method="post">
                         <div id="content" class="justify-content-between align-items-center mb-3">
                             <h5 class="text-primary fw-bold mb-0">
                                 <%=comment.author%>
@@ -95,20 +95,17 @@
                             <p id="date" class="mb-0"> 작성일: <%=comment.date%>
                             </p>
                         </div>
-                        <div style="float:right">
+                         <div style="float:right">
                                 <% if(loggedIn && currentUser.user_id===comment.user_id) {%>
-                                    <form action="">
-                                        <button class="btn btn-danger delete" style="display: inline-block">삭제</button>
-                                    </form>
-                                    <button type="button" class="btn btn-danger cancel"
-                                        style="display: none">취소</button>
-                                    <button type="button" class="btn btn-warning edit" style="display: inline-block">수정</button>
-                                    
-                                    <button type="submit" class="btn btn-warning edit" style="display: none">수정</button>
-                                    
+                                    <button type="button" class="btn btn-light cancel" style="display: none">취소</button>
+                                    <button type="button" class="btn btn-light edit" style="display: inline-block">수정</button>
+                                    <button type="submit" class="btn btn-light edit" style="display: none">수정</button>
+                                </form>
+                                <form action="/board/<%=board.post_id%>/comment/<%=comment.comment_id%>?_method=DELETE" style="display: inline" method="post">
+                                    <button type="submit" class="btn btn-light delete" style="display: inline-block">삭제</button>
+                                </form>
                                 <%}%>
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -123,7 +120,6 @@
         content.innerText = content.innerText.replaceAll('<br>', '\r\n');
     }
 
-
     const deleteForm = document.querySelector('#deleteForm');
     deleteForm.addEventListener('submit', (e) => {
         const isDelete = confirm('게시글을 삭제하시겠습니까?');
@@ -132,26 +128,25 @@
         }
     })
 
-
     const commentForm = document.querySelector('#commentForm');
     const textarea = document.querySelector('textarea');
     commentForm.addEventListener('submit', (e) => {
         textarea.value = textarea.value.replace(/(?:\r\n|\r|\n)/g, '<br>');
     })
-
 </script>
+
 
 <script>
     const editButtons = document.querySelectorAll('.edit');
     editButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-
             const container = button.parentElement.parentElement.parentElement;
             const cancelButton = e.target.previousElementSibling;
-            const deleteButton = cancelButton.previousElementSibling;
+            const deleteButton = button.nextElementSibling.nextElementSibling;
             const commentPara = container.querySelector('#commentPara');
             const buttonEdit = button.nextElementSibling;
-            console.log(buttonEdit);
+            const editForm = commentPara.parentElement.parentElement;
+    
             var contentComment = commentPara.innerText;
             contentComment = contentComment.replaceAll("<br>", "\r\n");
 
@@ -160,12 +155,17 @@
             buttonEdit.style.display = 'inline-block';
             button.style.display = 'none';
             deleteButton.style.display = 'none';
-            commentPara.innerHTML = `<textarea class='form-control' name='content'>${contentComment}</textarea>`;
+            commentPara.innerHTML = `<textarea class='form-control' id='editTextArea' name='content'>${contentComment}</textarea>`;
+            
+            // 수정 버튼을 누를시(수정한 내용을 업데이트하는 버튼);
+            editForm.addEventListener('submit', (e) => {
+                editTextArea.value = editTextArea.value.replace(/(?:\r\n|\r|\n)/g, '<br>');
+            });
 
             buttonEdit.addEventListener('click', (e)=> {
                 buttonEdit.style.display= 'none';
 
-            })
+            });
 
             // 취소 버튼을 누를시 
             cancelButton.addEventListener('click', (e) => {
@@ -178,4 +178,5 @@
             });
         })
     })
+
 </script>

@@ -208,18 +208,83 @@ module.exports = {
     },
 
     // 게시글 댓글 작성 
-    createComment: (req, res) => {
-        const { id } = req.params;
-        const newComment = new Comment(req.body, id, res.locals.currentUser);
-        const { post_id, user_id, author, content, date } = newComment;
-        const data = [post_id, user_id, author, content, date];
-        Comment.create(data);
+    createComment: async (req, res, next) => {
+        if (res.locals.loggedIn) {
+            const { id } = req.params;
+            const newComment = new Comment(req.body, id, res.locals.currentUser);
+            const { post_id, user_id, author, content, date } = newComment;
+            const data = [post_id, user_id, author, content, date];
+            Comment.create(data)
+                .then(result => {
+                    req.flash('success', '댓글 작성 완료!');
+                    res.redirect(`/board/${id}`);
+                })
+                .catch(err => {
+                    next(new ExpressError('잘못된 접근입니다.', 500));
+                })
+        }
+        else {
+            next(new ExpressError('잘못된 접근입니다.', 500));
+        }
 
-        res.redirect(`/board/${post_id}`);
     },
 
     // 게시글 댓글 수정 
-    updateComment: (req, res) => {
-        const { id, comment_id } = req.params;
+    updateComment: async (req, res, next) => {
+        if (res.locals.loggedIn) {
+            const { id, comment_id } = req.params;
+            const newComment = new Comment(req.body, id, res.locals.currentUser);
+            const { content, date, user_id } = newComment;
+            const data = [content, date, parseInt(comment_id), user_id];
+            console.log(data);
+            Comment.updateComment(data)
+                .then(result => {
+                    if (result.length < 0) {
+                        req.flash('success', '댓글 수정 완료!');
+
+                        res.redirect(`/board/${id}`);
+                    }
+                    else {
+                        req.flash('error', '댓글을 수정하는데 실패했습니다.');
+                        res.redirect(`/board/${id}`);
+                    }
+
+                })
+                .catch(err => {
+                    next(new ExpressError('에러가 발생했습니다.', 500));
+                })
+        }
+        else {
+            next(new ExpressError('잘못된 접근입니다.', 500));
+        }
+    },
+
+    deleteComment: async (req, res) => {
+        if (res.locals.loggedIn) {
+            const id = parseInt(req.params.id);
+            const comment_id = parseInt(req.params.comment_id);
+            const { user_id } = res.locals.currentUser;
+            const data = [comment_id, user_id];
+            console.log(data);
+
+            Comment.deleteComment(data)
+                .then(result => {
+                    if (result.length === undefined) {
+                        req.flash('success', '댓글 삭제 완료!');
+                        res.redirect(`/board/${id}`);
+                    }
+                    else {
+                        req.flash('error', '댓글을 삭제하는데 실패했습니다.');
+                        res.redirect(`/board/${id}`);
+                    }
+                })
+                .catch(err => {
+                    next(new ExpressError('에러가 발생했습니다.', 500));
+                })
+        }
+
+        else {
+            next(new ExpressError('잘못된 접근입니다', 500));
+        }
     }
 }
