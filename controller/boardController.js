@@ -1,6 +1,5 @@
 // controller/boardController.js
 
-// controller/boardController.js
 
 const { Board, Comment } = require('../models/board');
 

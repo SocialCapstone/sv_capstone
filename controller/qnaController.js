@@ -1,0 +1,2 @@
+// controller/qnaController.js
+
