@@ -72,6 +72,20 @@ app.use('/qna', qnaRouter);
 // ** 대화연습 라우트
 app.use('/test', testRouter);
 
+// 홈페이지 소개 라우트 
+
+app.get('/introduce', (req, res) => {
+    res.render('')
+})
+
+app.get('/welfare', (req, res) => {
+    res.render('welfare');
+})
+
+app.get('/self', (req, res) => {
+    res.render('self');
+})
+
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not found 404', 404));
 })

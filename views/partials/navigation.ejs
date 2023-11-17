@@ -2,9 +2,12 @@
 <!-- 사이트 상단 -->
 
 <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <a class="navbar-brand" href="/">
-        <img src="/image/logo.png" alt="충북 사랑의 매듭" style="width: 125px; height: 40px;">
-    </a>
+    <h1 id="logo">
+        <a class="logo" href="/">
+            <span>사랑의 매듭</span>
+        </a>
+    </h1>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -13,15 +16,19 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#">느린학습자란?</a>
+                <a class="nav-link dropdown-toggle" href="/introduce">소개</a>
                 <ul class="dropdown-menu">
-                    <li><a href="#">정의</a></li>
-                    <li><a href="#">활동나눔</a></li>
+                    <li><a href="/introduce">인사말</a></li>
+                    <li><a href="/activity">활동나눔</a></li>
+                    <li><a href="/logo">로고</a></li>
                 </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./self.html">자가진단</a>
+                <a class="nav-link" href="/self">자가진단</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/welfare">복지사업</a>
+              </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="/board?page=1">소통공간</a>
                 <ul class="dropdown-menu">

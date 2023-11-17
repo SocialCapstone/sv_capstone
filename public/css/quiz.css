@@ -10,10 +10,24 @@
   margin-top: 100px;
 }
 
+#section {
+  margin-top: 300px;
+  margin-left: 700px;
+  height: 400px;
+  width: 500px;
+}
+
+#section img {
+  height: 400px;
+  width: 500px;
+  pointer-events: none;
+
+}
+
 .match {
   width: 100vw;
   height: 100vh;
-  background-color: #007bff;
+  background-color: #f5da81;
 }
 
 .start_btn,

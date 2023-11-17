@@ -1,0 +1,158 @@
+#self_title {
+  color: #fff;
+  font-size: 46px;
+  font-family: "Courier New", Courier, monospace;
+  margin: 100px;
+  top: 18%;
+  left: 35%;
+  text-align: center;
+  font-weight: bold;
+  font-style: normal;
+  position: absolute;
+  margin-bottom: 30px;
+}
+
+
+#kids_info {
+  width: 100%;
+  margin-top: 150px;
+  margin-left: 100px;
+}
+
+#kids_grow {
+  background-image: url('/image/느린학습자 홈페이지 메인화면 배경.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  
+  width: 80%;
+  height: 800px;
+  margin-left: 100px;
+  padding-right: 100px;
+}
+
+
+#kids_test{
+  width: 100%;
+  height: 40rem;
+  margin-left: 100px;
+  margin-bottom: 100px;
+  box-sizing: content-box;
+}
+
+main span {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+}
+main #jm-font {
+  color: rgb(67, 69, 73);
+  font-size: 20px;
+}
+.wrap #wrap_img {
+  margin-left: 550px;
+}
+#sub-title {
+  margin-top: 50px;
+  font-family: "Courier New", Courier, monospace;
+}
+
+/* main img {
+  width: 550px;
+  height: 200px;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  visibility: visible;
+  image-rendering: -webkit-optimize-contrast;
+} */
+
+.wrap #bgr {
+  margin-top: -100px;
+  position: absolute;
+  width: 1050px;
+  height: 700px;
+}
+
+.wrap #sub_title1 {
+  position: absolute;
+  font-family: "Courier New", Courier, monospace;
+  top: 130%;
+  left: 15%;
+}
+.wrap #sub_title1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px; /* ������ ���� ���� */
+  background: #f7d358;
+  border-bottom: #f7d358 5px solid;
+}
+#text_box {
+  position: absolute;
+  color: #000;
+  top: 135%;
+  left: 15%;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+#text_box1 {
+  width: 600px;
+  height: 200px;
+  background: #f2f2f2;
+  /* margin-left: 100px; */
+  display: inline-block;
+}
+.wrap .child-list {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  top: 135%;
+  justify-content: center;
+  overflow: hidden;
+  padding: 20px;
+  margin-left: 35px;
+}
+
+.wrap .child img {
+  width: 300px;
+  height: 300px;
+}
+.child-list .child h5 {
+  color: #f7d358;
+  font-family: "Courier New", Courier, monospace;
+}
+.child h5 p {
+  margin-bottom: 100px;
+}
+.child p {
+  margin-left: 40px;
+  font-weight: 600;
+}
+
+#sub-title2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  top: 13%;
+  width: 100%;
+  height: 3px;
+  background: #f7d358;
+  border-bottom: #f7d358 5px solid;
+}
+
+#self_wrap {
+  font-family: "Courier New", Courier, monospace;
+  position: absolute;
+  top: 210%;
+}
+
+#inspect {
+  position: absolute;
+  top: 30%;
+  width: 100%;
+}
