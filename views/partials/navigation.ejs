@@ -1,7 +1,7 @@
 <!-- navigation.ejs -->
 <!-- 사이트 상단 -->
 
-<nav class="navbar navbar-expand-md navbar-light bg-light">
+<nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
     <h1 id="logo">
         <a class="logo" href="/">
             <span>사랑의 매듭</span>
@@ -48,13 +48,13 @@
             </li>
         </ul>
         <% if(loggedIn) {%>
-            <a href="/myPage/<%=currentUser.user_id%>" class="btn btn-outline-info mr-2">
+            <a href="/profile" class="btn btn-light mr-2">
                 <%=currentUser.nickname%>
             </a>
-            <a href="/logout" class="btn btn-success">로그아웃</a>
+            <a href="/logout" class="btn btn-light">로그아웃</a>
         <%} else{ %>
-        <a href="/login" class="btn btn-outline-info mr-2">로그인</a>
-        <a href="/register" class="btn btn-outline-dark">회원가입</a>
+        <a href="/login" class="btn btn-light mr-2">로그인</a>
+        <a href="/register" class="btn btn-light">회원가입</a>
         <%} %>
     </div>
 </nav>

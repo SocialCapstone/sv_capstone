@@ -31,13 +31,13 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
     res.locals.loggedIn = req.isAuthenticated();
     res.locals.currentUser = req.user;
+    res.locals.introduce = false;
+    res.locals.profile = false;
     next();
 })
 
@@ -53,8 +53,10 @@ const registerRouter = require('./routes/registerRoutes');
 const boardRouter = require('./routes/boardRoutes');
 const testRouter = require('./routes/testRoutes');
 const qnaRouter = require('./routes/qnaRoutes');
-
+const profileRouter = require('./routes/profileRoutes');
 const userController = require('./controller/userController');
+
+// 모델 추가 
 
 app.use('/', homeRouter);
 app.get('/error', (req, res) => {
@@ -71,11 +73,12 @@ app.use('/board', boardRouter);
 app.use('/qna', qnaRouter);
 // ** 대화연습 라우트
 app.use('/test', testRouter);
-
-// 홈페이지 소개 라우트 
+// ** 프로필 라우트 **
+app.use('/profile', profileRouter);
 
 app.get('/introduce', (req, res) => {
-    res.render('')
+    res.locals.introduce = true;
+    res.render('introduce');
 })
 
 app.get('/welfare', (req, res) => {
@@ -85,6 +88,7 @@ app.get('/welfare', (req, res) => {
 app.get('/self', (req, res) => {
     res.render('self');
 })
+
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not found 404', 404));

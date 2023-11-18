@@ -38,9 +38,19 @@ module.exports = {
     index: async (req, res) => {
 
         const page = parseInt(req.query.page) || 1;
+        const user = req.query.nickname || null;
+
         const postPerPage = 10;
         const displayPageNum = 10;
-        const totalPosts = await Board.countAll();
+        var totalPosts;
+        var indexPosts;
+        if (user === null) {
+            totalPosts = await Board.countAll();
+        }
+        else {
+            totalPosts = await Board.countAllByNickname(user);
+        }
+        console.log(totalPosts);
 
         const totalPages = getTotalPages(totalPosts[0].total, postPerPage);
         const startPage = getStartPage(page, displayPageNum);
@@ -50,10 +60,16 @@ module.exports = {
         const next = hasNext(endPage, totalPages);
 
         const offset = (page - 1) * postPerPage;
-        const data = [offset, postPerPage];
+        if (user === null) {
+            const data = [offset, postPerPage];
+            indexPosts = await Board.findByPage(data);
+        }
+        else {
+            const data = [user, offset, postPerPage];
+            indexPosts = await Board.findByNickname(data);
+        }
 
-        const indexPosts = await Board.findByPage(data);
-        res.render('board/index', { indexPosts, prev, next, startPage, endPage, currentPage: page });
+        res.render('board/index', { indexPosts, prev, next, startPage, endPage, currentPage: page, user});
     },
     // 게시글 작성 페이지 
     new: (req, res) => {
@@ -72,7 +88,7 @@ module.exports = {
             }
             let img;
 
-            const { user_id, author, title, content, date, count } = newBoard;
+            const { nickname, user_id, author, title, content, date, count } = newBoard;
 
             // 이미지 저장시 또는 저장하지 않을때 
             if (req.file) {
@@ -83,7 +99,7 @@ module.exports = {
             }
 
             // 게시글 저장시 아무것도 입력되지 않을때, 다시 입력
-            const data = [user_id, author, title, content, img, date, count];
+            const data = [user_id, nickname, author, title, content, img, date, count];
             if (title === '' || content === '') {
                 req.flash('error', "내용을 비우지 말아주세요");
                 res.redirect('/board/new');
@@ -108,10 +124,10 @@ module.exports = {
 
     // 단일 게시물 보기 
     show: async (req, res, next) => {
-
         const id = parseInt(req.params.id);
         const board = await Board.findById(id);
         const comments = await Comment.findCommentById(id);
+        Board.updateViewCount(id);
         // 게시글이 존재하지 않을때
         if (board.length === 0) {
             next(new ExpressError('존재하지 않는 게시글입니다.', 404));
@@ -235,7 +251,7 @@ module.exports = {
             const newComment = new Comment(req.body, id, res.locals.currentUser);
             const { content, date, user_id } = newComment;
             const data = [content, date, parseInt(comment_id), user_id];
-        
+
             Comment.updateComment(data)
                 .then(result => {
                     if (result.length > 0) {

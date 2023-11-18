@@ -19,12 +19,10 @@ a {
 
 .board_wrap {
     font-size: 10px;
-    width: 1000px;
-    margin: 200px auto;
 }
 
 .board_title {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
 .board_title strong {
@@ -124,7 +122,7 @@ a {
 
 .board_page a {
     display: inline-block;
-    width: 32px;
+
     height: 32px;
     box-sizing: border-box;
     vertical-align: middle;

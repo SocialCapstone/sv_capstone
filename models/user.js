@@ -24,7 +24,7 @@ User.findByEmail = function (email) {
 
 User.findById = function (id) {
     const sql = `SELECT * FROM user_info WHERE user_id=?`;
-    return mysql.promise().query(sql, [id])
+    return mysql.promise().query(sql, id)
         .then(rows => {
             if (rows.length > 0) {
                 return rows[0];
@@ -44,6 +44,32 @@ User.createUser = function (email, hashedPassword, nickname) {
         })
 }
 
+User.findUserIdByID = function (id) {
+    const sql = `SELECT user_id from user_info WHERE user_id=?`;
+    return mysql.promise().query(sql, id)
+        .then(result => {
+            if (result.length > 0) {
+                return result[0];
+            }
+            else {
+                return null;
+            }
+        });
+
+}
+
+User.deleteUserById = function (id) {
+    const sql = `DELETE FROM user_info WHERE user_id = ? `;
+    return mysql.promise().query(sql, id)
+        .then(result => {
+            if (result.length > 0) {
+                return result[0];
+            }
+            else {
+                return null;
+            }
+        });
+}
 
 
 

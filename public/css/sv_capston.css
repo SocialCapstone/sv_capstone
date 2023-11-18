@@ -210,42 +210,61 @@ p strong {
 }
 
 
-
-#active_text {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 15px;
-  font-family: sans-serif;
-  display: inline-block;
+.active {
+  /* border-width: 0; */
+  background-image: url('/image/느린학습자 홈페이지 메인화면 배경1.jpg');
+  background-repeat: no-repeat;
+  background-size: cover; /* 배경 이미지를 요소에 맞게 확대/축소 */
+  background-position: center; /* 배경 이미지를 가운데 정렬 */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  /* position: relative; */
 }
 
-#active_btn {
-  top: 30px;
-  margin-left: 450px;
+.active #background {
+  /* position: absolute; */
+}
+.active #active_text {
+  /* position: absolute; */
+  font-size: 32px;
+  font-weight: 700;
+  margin-top: 250px;
+  margin-left: 100px;
+  font-family: "Courier New", Courier, monospace;
+  text-decoration: underline solid 8px #f7d358;
+  display: block;
+}
+.active #active_btn {
+ /* position: absolute;  */
+  margin-top: 250px;
+  margin-left: 500px;
+  /* right: inherit; */
   padding: 12.5px 30px;
   border: 0;
   border-radius: 100px;
   text-align: right;
   background-color: #d8d8d8;
-  color: #ffffff;
+  color: #fff;
   font-weight: Bold;
-  font-size: 1rem;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
   text-shadow: 1px 1px 1px #000;
-  display: inline-block;
 }
-
 .active #active_btn:hover {
   box-shadow: -3px -3px 3px rgb(172, 172, 172), 3px 3px 3px rgb(237, 237, 237);
   transition: 0.3s;
 }
+
+
 
 /*ī�� css*/
 #card {
   background-color: rgb(255,255,255);
   width: 350px;
   text-align: center;
+  border-radius: 8px;
   overflow: hidden;
   margin-left: 90px;
   transition: all 0.3s cubic-bezier(0.42, 0, 0.58, 1);
@@ -295,52 +314,32 @@ p strong {
 
 
 .introduce {
-  background-color: #ffffff;
+  background-color: #fff;
   width: 100%;
-  height: 700px;
-  margin-top: 100px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  font-family: SpoqaHanSansNeo-Regular;
+  /* margin-top: 30px; */
+  /* margin-bottom: 150px; */
 }
 
 .introduce #footer_logo {
-  position: absolute;
+  /* position: absolute; */
   width: 300px;
-  height: 100px;
-  margin-top: 550px;
-  left: 0;
+  height: 200px;
+  display: inline-flex;
 }
 
-.introduce p {
-  position: absolute;
+.introduce span {
   font-size: 15px;
   font-weight: bold;
-  margin-top: 570px;
-  margin-left: 300px;
+  margin-left: 100px;
 }
 
 .introduce #knut {
   width: 50px;
   height: 50px;
-  margin-top: 550px;
-  margin-left: -370px;
-  position: absolute;
-}
-
-
-#introduce h3 {
-  position: absolute;
-  font-weight: bold;
-  font-size: 30px;
-}
-
-#introduce p {
-  position: absolute;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-#introduce img {
-  width: 50px;
-  height: 50px;
-  margin-top: 630px;
-  margin-left: 1015px;
+  margin: 0 20px;
+  margin-left: 50px;
 }

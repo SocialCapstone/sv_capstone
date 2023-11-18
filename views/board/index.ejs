@@ -29,20 +29,38 @@
 
         <!-- 페이지 이동 -->
         <div class="board_page">
+            <%if(user) {%>
             <% if(prev) {%>
             <a href="/board?page=<%=startPage-1%>" class="bt prev"><</a>
             <%}%>
 
             <% for(let page = startPage; page <=endPage; page++) {%>
                 <% if(page === currentPage) {%>
-                    <a href="/board?page=<%=page%>" class="num on"><%=page%></a>
+                    <a href="/board?page=<%=page%>&nickname=<%=user%>" class="num on"><%=page%></a>
                 <% } else{%>
-                    <a href="/board?page=<%=page%>" class="num"><%=page%></a> 
+                    <a href="/board?page=<%=page%>&nickname=<%=user%>" class="num"><%=page%></a> 
                 <%}%>
             <%}%>
             
             <% if(next) {%>
+                <a href="/board?page=<%=endPage+1%>&nickname=<%=user%>" class="bt next">></a>
+            <%}%>
+            <%} else{%>
+            <% if(prev) {%>
+                <a href="/board?page=<%=startPage-1%>&nickname=<%=user%>" class="bt prev"><</a>
+            <%}%>
+        
+                    <% for(let page = startPage; page <=endPage; page++) {%>
+                        <% if(page === currentPage) {%>
+                            <a href="/board?page=<%=page%>" class="num on"><%=user%></a>
+                        <% } else{%>
+                            <a href="/board?page=<%=page%>" class="num"><%=user%></a> 
+                        <%}%>
+                    <%}%>
+                    
+            <% if(next) {%>
                 <a href="/board?page=<%=endPage+1%>" class="bt next">></a>
+            <%}%>
             <%}%>
             
         </div>

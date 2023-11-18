@@ -9,6 +9,7 @@ moment.tz.setDefault("Asia/Seoul");
 let Question = function (question, currentUser) {
     this.user_id = currentUser.user_id;
     this.author = currentUser.nickname;
+    this.nickname = currentUser.nickname;
     this.title = question.title;
     this.content = question.content;
     this.img = question.img;
@@ -20,13 +21,14 @@ let Comment = function (comment, id, currentUser) {
 
     this.user_id = currentUser.user_id;
     this.author = currentUser.nickname;
+    this.nickname = currentUser.nickname;
     this.post_id = parseInt(id);
     this.content = comment.content;
     this.date = moment().format('YYYY-MM-DD');
 }
 
 Question.create = function (data) {
-    const sql = `INSERT INTO qna(user_id, author, title, content, img, date, count) VALUES(?,?,?,?,?,?,?)`
+    const sql = `INSERT INTO qna(user_id, nickname, author, title, content, img, date, count) VALUES(?,?,?,?,?,?,?,?)`
     return mysql.promise().query(sql, data)
         .then(result => {
             console.log("successfully saved Question");
@@ -63,6 +65,19 @@ Question.findByPage = function (data) {
         })
 }
 
+Question.findByNickname = function (data) {
+    const sql = `SELECT post_id, author, title, date_format(date, '%Y-%m-%d') AS date, count FROM qna WHERE nickname=? ORDER BY post_id DESC LIMIT ?,? `;
+    return mysql.promise().query(sql, data)
+        .then(rows => {
+            if (rows.length > 0) {
+                return rows[0];
+            }
+            else {
+                return null;
+            }
+        })
+}
+
 Question.updateBoard = function (data) {
     const sql = `UPDATE qna SET author=?, title=?, content=?, date=?, img=? WHERE post_id=?`
     return mysql.promise().query(sql, data)
@@ -83,6 +98,21 @@ Question.countAll = function () {
             }
         })
 }
+Question.countAllByNickname = function (nickname) {
+    const sql = `SELECT COUNT(*) AS total FROM qna WHERE nickname = ?`
+    return mysql.promise().query(sql,nickname)
+        .then(rows=> {
+            if(rows.length> 0){
+                return rows[0];
+            }
+            else{
+                return null;
+            }
+        })
+        .catch(err=> {
+            return err;
+        })
+}
 
 Question.deleteById = function (id) {
     const sql = `DELETE FROM qna WHERE post_id=?`
@@ -92,6 +122,35 @@ Question.deleteById = function (id) {
                 return rows[0];
             }
             else {
+                return null;
+            }
+        })
+}
+
+
+// user_id 로 게시글 조회하기 
+
+Question.findByUserId = function (data) {
+    const sql = `SELECT post_id, author, title, date_format(date, '%Y-%m-%d') AS date, count FROM qna WHERE user_id =? ORDER BY date DESC LIMIT ?,? `;
+    return mysql.promise().query(sql,data)
+        .then(rows => {
+            if(rows.length> 0){
+                return rows[0];
+            }
+            else{
+                return null;
+            }
+        })
+}
+
+Question.countAllByUserID = function (id) {
+    const sql = `SELECT COUNT(*) AS total FROM qna WHERE user_id =?`
+    return mysql.promise().query(sql,id)
+        .then(rows=> {
+            if(rows.length> 0){
+                return rows[0];
+            }
+            else{
                 return null;
             }
         })
@@ -148,5 +207,19 @@ Comment.deleteComment = function (data) {
             }
         })
 }
+
+Question.updateViewCount = function (id) {
+    const sql = `UPDATE qna SET count=count + 1 WHERE post_id =?`;
+    return mysql.promise().query(sql, id)
+        .then(rows => {
+            if (rows.length > 0) {
+                return rows[0];
+            }
+            else {
+                return null;
+            }
+        })
+}
+
 
 module.exports = { Question, Comment };

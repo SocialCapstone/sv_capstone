@@ -29,21 +29,39 @@
 
         <!-- 페이지 이동 -->
         <div class="board_page">
-            <% if(prev) {%>
-            <a href="/qna?page=<%=startPage-1%>" class="bt prev"><</a>
-            <%}%>
-
-            <% for(let page = startPage; page <=endPage; page++) {%>
-                <% if(page === currentPage) {%>
-                    <a href="/qna?page=<%=page%>" class="num on"><%=page%></a>
-                <% } else{%>
-                    <a href="/qna?page=<%=page%>" class="num"><%=page%></a> 
+            <%if(user) {%>
+                <% if(prev) {%>
+                <a href="/qna?page=<%=startPage-1%>" class="bt prev"><</a>
                 <%}%>
-            <%}%>
+    
+                <% for(let page = startPage; page <=endPage; page++) {%>
+                    <% if(page === currentPage) {%>
+                        <a href="/qna?page=<%=page%>&nickname=<%=user%>" class="num on"><%=page%></a>
+                    <% } else{%>
+                        <a href="/qna?page=<%=page%>&nickname=<%=user%>" class="num"><%=page%></a> 
+                    <%}%>
+                <%}%>
+                
+                <% if(next) {%>
+                    <a href="/qna?page=<%=endPage+1%>&nickname=<%=user%>" class="bt next">></a>
+                <%}%>
+                <%} else{%>
+                <% if(prev) {%>
+                    <a href="/qna?page=<%=startPage-1%>&nickname=<%=user%>" class="bt prev"><</a>
+                <%}%>
             
-            <% if(next) {%>
-                <a href="/qna?page=<%=endPage+1%>" class="bt next">></a>
-            <%}%>
+                        <% for(let page = startPage; page <=endPage; page++) {%>
+                            <% if(page === currentPage) {%>
+                                <a href="/qna?page=<%=page%>" class="num on"><%=page%></a>
+                            <% } else{%>
+                                <a href="/qna?page=<%=page%>" class="num"><%=page%></a> 
+                            <%}%>
+                        <%}%>
+                        
+                <% if(next) {%>
+                    <a href="/qna?page=<%=endPage+1%>" class="bt next">></a>
+                <%}%>
+                <%}%>
             
         </div>
         

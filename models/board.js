@@ -10,10 +10,12 @@ moment.tz.setDefault("Asia/Seoul");
 let Board = function (board, currentUser) {
     this.user_id = currentUser.user_id;
     this.author = currentUser.nickname;
+    this.nickname = currentUser.nickname;
     this.title = board.title;
     this.content = board.content;
     this.img = board.img;
     this.date = moment().format('YYYY-MM-DD');
+    
     this.count = 0;
 }
 
@@ -26,7 +28,7 @@ let Comment = function (comment, id, currentUser) {
 }
 
 Board.create = function (data) {
-    const sql = `INSERT INTO board(user_id, author, title, content, img, date, count) VALUES(?,?,?,?,?,?,?)`
+    const sql = `INSERT INTO board(user_id, nickname, author, title, content, img, date, count) VALUES(?,?,?,?,?,?,?,?)`
     return mysql.promise().query(sql, data)
         .then(result => {
             console.log("successfully saved Question");
@@ -52,6 +54,19 @@ Board.findById = function (id) {
 
 Board.findByPage = function (data) {
     const sql = `SELECT post_id, author, title, date_format(date, '%Y-%m-%d') AS date, count FROM board ORDER BY post_id DESC LIMIT ?,? `;
+    return mysql.promise().query(sql, data)
+        .then(rows => {
+            if (rows.length > 0) {
+                return rows[0];
+            }
+            else {
+                return null;
+            }
+        })
+}
+
+Board.findByNickname = function (data) {
+    const sql = `SELECT post_id, author, title, date_format(date, '%Y-%m-%d') AS date, count FROM board WHERE nickname=? ORDER BY post_id DESC LIMIT ?,? `;
     return mysql.promise().query(sql, data)
         .then(rows => {
             if (rows.length > 0) {
@@ -95,6 +110,76 @@ Board.deleteById = function (id) {
             else {
                 return null;
             }
+        })
+}
+
+Board.updateViewCount = function (id) {
+    const sql = `UPDATE board SET count=count + 1 WHERE post_id =?`;
+    return mysql.promise().query(sql,id)
+        .then(rows => {
+            if(rows.length > 0){
+                return rows[0];
+            }
+            else {
+                return null;
+            }
+        })
+}
+
+// user_id 로 게시글 조회하기 
+
+Board.findByUserId = function (data) {
+    const sql = `SELECT post_id, author, title, date_format(date, '%Y-%m-%d') AS date, count FROM board WHERE user_id =? ORDER BY date DESC LIMIT ?,? `;
+    return mysql.promise().query(sql,data)
+        .then(rows => {
+            if(rows.length> 0){
+                return rows[0];
+            }
+            else{
+                return null;
+            }
+        })
+}
+
+Board.findByUserNickname = function (data) {
+    const sql = `SELECT post_id, author, title, date_format(date, '%Y-%m-%d') AS date, count FROM board WHERE nickname =? ORDER BY date DESC LIMIT ?,? `;
+    return mysql.promise().query(sql,data)
+        .then(rows => {
+            if(rows.length> 0){
+                return rows[0];
+            }
+            else{
+                return null;
+            }
+        })
+}
+
+Board.countAllByUserID = function (id) {
+    const sql = `SELECT COUNT(*) AS total FROM board WHERE user_id =?`
+    return mysql.promise().query(sql,id)
+        .then(rows=> {
+            if(rows.length> 0){
+                return rows[0];
+            }
+            else{
+                return null;
+            }
+        })
+}
+
+Board.countAllByNickname = function (nickname) {
+    const sql = `SELECT COUNT(*) AS total FROM board WHERE nickname = ?`
+    return mysql.promise().query(sql,nickname)
+        .then(rows=> {
+            if(rows.length> 0){
+                return rows[0];
+            }
+            else{
+                return null;
+            }
+        })
+        .catch(err=> {
+            return err;
         })
 }
 
