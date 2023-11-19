@@ -6,7 +6,9 @@ const profileController = require('../controller/profileController');
 
 router.get('/', profileController.index);
 router.get('/board', profileController.indexBoard);
-router.get('/qna',profileController.indexQuestion);
+router.get('/qna', profileController.indexQuestion);
+router.get('/edit', profileController.edit);
+router.put('/edit', profileController.update);
 router.delete('/', profileController.delete);
 
 

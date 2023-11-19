@@ -17,6 +17,12 @@
             </h5>
 
             <div class="d-flex justify-content-center mb-2">
+              
+                <a href="/profile/edit">
+                  <button class="btn btn-primary mr-2"> 비밀번호 변경 </button>
+                </a>
+             
+              
               <form action="/profile?_method=DELETE" method="post">
                 <button type="submit" class="btn btn-outline-primary ms-1">탈퇴</button>
               </form>
@@ -105,7 +111,7 @@
         }
       })
         .then(async function (result) {
-          console.log(result);
+        
           const data = result.json();
           return data;
         })
@@ -135,8 +141,7 @@
           }
 
           const nextDiv = board_list.nextElementSibling;
-          console.log(nextDiv);
-          console.log(posts.totalPosts);
+  
           nextDiv.innerHTML = '';
           if(posts.totalPosts > 0){
             const moreLoad = `<a class='btn btn-primary' href='/board?page=1&nickname=<%=currentUser.nickname%>'>게시글 더보기</a>`
@@ -155,7 +160,7 @@
         }
       })
         .then(async function (result) {
-          console.log(result);
+          
           const data = result.json();
           return data;
         })
@@ -185,8 +190,7 @@
           }
 
           const nextDiv = board_list.nextElementSibling;
-          console.log(nextDiv);
-          console.log(posts.totalPosts);
+
           nextDiv.innerHTML = '';
           if(posts.totalPosts > 0){
             const moreLoad = `<a class='btn btn-primary' href='/qna?page=1&nickname=<%=currentUser.nickname%>'>게시글 더보기</a>`

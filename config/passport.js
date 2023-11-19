@@ -21,7 +21,7 @@ passport.use('local-signUp', new LocalStrategy({
 }, function (req, email, password, done) {
 
     const { nickname } = req.body;
-
+    
     User.findByEmail(email)
         .then(user => {
             if (user.length > 0) {
@@ -57,6 +57,7 @@ passport.use('local-signIn', new LocalStrategy({
     passwordField: 'password',
     passReqToCallback: true
 }, function (req, email, password, done) {
+   
 
     User.findByEmail(email)
         .then(user => {
@@ -78,6 +79,7 @@ passport.use('local-signIn', new LocalStrategy({
                     }
                 })
             }
+
         })
 }));
 

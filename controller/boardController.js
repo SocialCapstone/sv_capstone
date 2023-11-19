@@ -50,7 +50,7 @@ module.exports = {
         else {
             totalPosts = await Board.countAllByNickname(user);
         }
-        console.log(totalPosts);
+        
 
         const totalPages = getTotalPages(totalPosts[0].total, postPerPage);
         const startPage = getStartPage(page, displayPageNum);
@@ -279,7 +279,7 @@ module.exports = {
             const comment_id = parseInt(req.params.comment_id);
             const { user_id } = res.locals.currentUser;
             const data = [comment_id, user_id];
-            console.log(data);
+            
 
             Comment.deleteComment(data)
                 .then(result => {

@@ -52,9 +52,9 @@
         
                     <% for(let page = startPage; page <=endPage; page++) {%>
                         <% if(page === currentPage) {%>
-                            <a href="/board?page=<%=page%>" class="num on"><%=user%></a>
+                            <a href="/board?page=<%=page%>" class="num on"><%=page%></a>
                         <% } else{%>
-                            <a href="/board?page=<%=page%>" class="num"><%=user%></a> 
+                            <a href="/board?page=<%=page%>" class="num"><%=page%></a> 
                         <%}%>
                     <%}%>
                     

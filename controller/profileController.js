@@ -4,7 +4,7 @@ const { Board } = require('../models/board');
 const { Question } = require('../models/qna');
 const User = require('../models/user');
 const ExpressError = require('../utils/ExpressError');
-
+const bcrypt = require('bcrypt');
 
 // ** 게시판 페이징 알고리즘 함수 **
 const hasPrev = (startPage) => {
@@ -44,6 +44,80 @@ module.exports = {
         else if (id === null) {
             next(new ExpressError('잘못된 접근입니다.', 500));
         }
+    },
+
+    // 비밀번호 변경 페이지 
+    edit: (req, res) => {
+        res.render('user/password');
+    },
+
+    // 비밀번호 변경 요청(put)
+    update: async (req, res) => {
+        const { password, nextPass, nextPass_confirm } = req.body;
+        // 입력하지 않을시
+        if (password === '' || nextPass === '' || nextPass_confirm === '') {
+            req.flash('error', '입력하지 않은 내용이있습니다.');
+            res.redirect('/profile/edit');
+        }
+        // 내용이 전부 입력되었을때 
+        else {
+            
+            const id = parseInt(res.locals.currentUser.user_id)
+            const user = await User.findById(id);
+
+            // 현재 비밀번호와 변경하려는 비밀번호가 일치하지 않을시 
+            bcrypt.compare(password, user[0].password, (err, result) => {
+                if (err) {
+                    console.log(err);
+                }
+                if (result) {
+                    // 변경하려는 비밀번호가 일치하지 않을시
+                    if (nextPass !== nextPass_confirm) {
+                        req.flash('error', '변경하려는 비밀번호가 일치하지 않습니다.');
+                        res.redirect('/profile/edit');
+                    }
+                    // 변경하려는 비밀번호가 일치시 
+                    else {
+                        bcrypt.hash(nextPass, 10, (err, hashedPassword) => {
+                            if (err) {
+                                req.flash('error', '비밀번호 변경중 오류가 발생했습니다. 다시 시도해주세요');
+                                res.redirect('/profile/edit');
+                            }
+                            else {
+                            
+                                const data = [hashedPassword, id];
+                                
+                                User.findByIdAndUpdate(data)
+                                    .then(result => {
+                                        if (result) {
+                                            req.logout(function (err) {
+                                                if (err) { return next(new ExpressError('계정 삭제 오류 발생', 500)); }
+                                                req.flash('success', '비밀번호를 변경했습니다! 다시 로그인해주세요');
+                                                res.redirect('/login');
+                                            });
+                                    
+                                        }
+                                        else {
+                                            next(new ExpressError('비밀번호 변경중 오류가 발생했습니다. 다시 시도해주세요', 500));
+                                        }
+                                    });
+                            }
+                        })
+                    }
+                }
+                else {
+                    req.flash('error', '현재 비밀번호가 일치하지 않습니다.');
+                    res.redirect('/profile/edit');
+                }
+            });
+
+
+
+
+
+        }
+
+
     },
 
     // 계정 삭제 
@@ -91,7 +165,7 @@ module.exports = {
         const indexPosts = await Board.findByUserId(data);
 
         console.log(totalPosts[0]);
-        res.json({ indexPosts, prev, next, startPage, endPage,  page, totalPosts: totalPosts[0].total});
+        res.json({ indexPosts, prev, next, startPage, endPage, page, totalPosts: totalPosts[0].total });
     },
 
     indexQuestion: async (req, res) => {
@@ -115,8 +189,8 @@ module.exports = {
 
         const indexPosts = await Question.findByUserId(data);
 
-        console.log(totalPosts[0]);
-        res.json({ indexPosts, prev, next, startPage, endPage, page ,totalPosts: totalPosts[0].total});
+
+        res.json({ indexPosts, prev, next, startPage, endPage, page, totalPosts: totalPosts[0].total });
     }
 
 
