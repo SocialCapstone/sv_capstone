@@ -14,8 +14,8 @@ footer {
 
 #logo a {
   display: block;
-  width: 195px;
-  height: 100%;
+  width: 270px;
+  height: 60px;
   background: url('/image/로고.png') no-repeat left top;
   background-size: 100%;
   text-indent: -9999px;

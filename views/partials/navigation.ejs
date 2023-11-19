@@ -1,12 +1,7 @@
 <!-- navigation.ejs -->
 <!-- 사이트 상단 -->
 
-<nav class="navbar navbar-expand-md navbar-light fixed-top bg-light">
-    <h1 id="logo">
-        <a class="logo" href="/">
-            <span>사랑의 매듭</span>
-        </a>
-    </h1>
+<nav class="navbar navbar-expand-md navbar-light fixed-top bg-light pb-3">
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -14,6 +9,12 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <h1 id="logo">
+            <a class="logo" href="/">
+                <span>사랑의 매듭</span>
+            </a>
+        </h1>
+
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link" href="/introduce">소개</a>
@@ -23,12 +24,13 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/welfare">복지사업</a>
-              </li>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="/board?page=1">소통공간</a>
                 <ul class="dropdown-menu">
                     <li><a href="/board?page=1">자유게시판</a></li>
                     <li><a href="/qna?page=1">Q&A</a></li>
+                    <li><a href="/reference?page=1">자료실</a></li>
                 </ul>
             </li>
 
@@ -46,9 +48,9 @@
                 <%=currentUser.nickname%>
             </a>
             <a href="/logout" class="btn btn-light">로그아웃</a>
-        <%} else{ %>
-        <a href="/login" class="btn btn-light mr-2">로그인</a>
-        <a href="/register" class="btn btn-light">회원가입</a>
-        <%} %>
+            <%} else{ %>
+                <a href="/login" class="btn btn-light mr-2">로그인</a>
+                <a href="/register" class="btn btn-light">회원가입</a>
+                <%} %>
     </div>
 </nav>

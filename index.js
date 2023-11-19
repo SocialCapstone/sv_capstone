@@ -54,7 +54,9 @@ const boardRouter = require('./routes/boardRoutes');
 const testRouter = require('./routes/testRoutes');
 const qnaRouter = require('./routes/qnaRoutes');
 const profileRouter = require('./routes/profileRoutes');
+const referenceRouter = require('./routes/referenceRoutes');
 const userController = require('./controller/userController');
+
 
 // 모델 추가 
 
@@ -75,6 +77,9 @@ app.use('/qna', qnaRouter);
 app.use('/test', testRouter);
 // ** 프로필 라우트 **
 app.use('/profile', profileRouter);
+// ** 자료실 라우트 ** 
+app.use('/reference', referenceRouter);
+
 
 app.get('/introduce', (req, res) => {
     res.locals.introduce = true;

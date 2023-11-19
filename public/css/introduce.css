@@ -8,12 +8,15 @@
   font-family: "SDMiSaeng", sans-serif; /*웹 폰트 지정*/
   font-size: 23px;
 }
+#logo {
+  height: 100%;
+}
 
 #logo a {
   display: block;
-  width: 195px;
-  height: 100%;
-  background: url(/image/로고.png) no-repeat left top;
+  width: 270px;
+  height: 60px;
+  background: url('/image/로고.png') no-repeat left top;
   background-size: 100%;
   text-indent: -9999px;
   margin-right: -30px;
