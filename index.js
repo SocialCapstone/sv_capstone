@@ -38,6 +38,7 @@ app.use((req, res, next) => {
     res.locals.currentUser = req.user;
     res.locals.introduce = false;
     res.locals.profile = false;
+    res.locals.test = false;
     next();
 })
 
