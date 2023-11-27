@@ -247,6 +247,7 @@ p strong {
   text-decoration: underline solid 8px #f7d358;
   display: block;
 }
+
 .active #active_btn {
  /* position: absolute;  */
   margin-top: 250px;
