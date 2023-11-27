@@ -42,6 +42,7 @@ app.use((req, res, next) => {
     next();
 })
 
+
 app.use(methodOverride("_method", {
     methods: ["POST", "GET"]
 }))
@@ -60,7 +61,6 @@ const userController = require('./controller/userController');
 
 
 // 모델 추가 
-
 app.use('/', homeRouter);
 app.get('/error', (req, res) => {
     res.send("error!");
