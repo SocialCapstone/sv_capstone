@@ -72,7 +72,7 @@ User.deleteUserById = function (id) {
 }
 
 User.findByIdAndUpdate = function (data) { 
-    const sql = `UPDATE user_infO SET password=? WHERE user_id=?`;
+    const sql = `UPDATE user_info SET password=? WHERE user_id=?`;
         return mysql.promise().query(sql, data)
         .then(rows => {
             if (rows.length > 0) {
