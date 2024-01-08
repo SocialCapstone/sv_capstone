@@ -17,4 +17,7 @@
     
     ![Untitled](https://cdn.discordapp.com/attachments/1033365858459848729/1161662995894636594/image.png?ex=65391df8&is=6526a8f8&hm=37ab9f687507b65bb93ac5564f37e97731b2d627fbaefceba5892851c473764b&)
 
-- (modell, controller에 dummy.js가 있는데 이는 커밋푸시하기 위해 작성한것)
+
+- ERD
+
+    ![Untitled](https://cdn.discordapp.com/attachments/1033365858459848729/1193780817898512394/ERD.png?ex=65adf606&is=659b8106&hm=9c73b4ed91b477ca7df954b34acf030bb64950db54f026e8e3a83b50bc6374d5&)
